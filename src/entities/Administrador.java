@@ -22,11 +22,11 @@ public class Administrador extends Pessoa{
         setIdAdministrador(idAdministrador);
     }
 
-    public void setIdAdministrador(long idAdministrador) {
+    public final void setIdAdministrador(long idAdministrador) {
         this.idAdministrador = idAdministrador;
     }
     
-     public void setIdAdministrador() {
+     public final void setIdAdministrador() {
         this.idAdministrador = id + 1;
         Administrador.id = this.idAdministrador;
     }

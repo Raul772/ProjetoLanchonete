@@ -9,7 +9,7 @@ public class Cliente extends Pessoa{
     
     public Cliente(){}
 
-    public Cliente(int idCliente, String endereco, String telefone, String nome, String cpf) {
+    public Cliente(long idCliente, String endereco, String telefone, String nome, String cpf) {
         super(nome, cpf);
         setIdCliente(idCliente);
         setEndereco(endereco);
@@ -20,7 +20,7 @@ public class Cliente extends Pessoa{
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public final void setIdCliente(long idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -28,7 +28,7 @@ public class Cliente extends Pessoa{
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public final void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 
@@ -36,7 +36,7 @@ public class Cliente extends Pessoa{
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public final void setTelefone(String telefone) {
         this.telefone = telefone;
     }
     
