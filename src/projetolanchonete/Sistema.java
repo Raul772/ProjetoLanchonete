@@ -5,9 +5,7 @@ import entities.Administrador;
 import entities.Usuario;
 import java.util.Scanner;
 
-public class Sistema {
-    
-    
+public abstract class Sistema {
     
     public static void menu(Usuario user){
             
