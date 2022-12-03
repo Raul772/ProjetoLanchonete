@@ -3,7 +3,7 @@ package entities;
 public abstract class Pessoa {
     
     private String nome;
-    private String cpf;
+    protected String cpf;
     
     public Pessoa(){}
 

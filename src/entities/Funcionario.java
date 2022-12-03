@@ -1,4 +1,3 @@
-
 package entities;
 
 import com.google.gson.Gson;
@@ -7,51 +6,57 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 
-public class Funcionario extends Pessoa{
+public class Funcionario extends Usuario{
     
     
-    private long idFuncionario;
+//  Sobrecargas de Construtor
     
-    public Funcionario(){}
-
-    public Funcionario(long idFuncionario, String nome, String cpf) {
-        super(nome, cpf);
-        setIdFuncionario(idFuncionario);
+    public Funcionario(){
+        super(1);
     }
 
-    public long getIdFuncionario() {
-        return idFuncionario;
+    public Funcionario(String nome, String cpf, String user, String password) {
+        super(nome, cpf, 1, user, password);
     }
 
-    public final void setIdFuncionario(long idFuncionario) {
-        this.idFuncionario = idFuncionario;
-    }
+//  Getters e Setters
     
-    public Cliente incluirCliente(long id, String endereco, String telefone, String nome, String cpf) throws IOException{
-        Path filePath = Path.of("C:","ProjetoLanchonete",
-                            "registros", "clientes", 
-                            String.format("%s.json", id));
+    
+//  Métodos de Funcionario
+    
+    public static boolean existeFuncionario(String user){
+
+        Path filePath = Path.of("\\registros\\funcionarios", 
+                    String.format("%s.json", user));
         
+        return (Files.exists(filePath));
+    }
+    
+    public boolean existeFuncionario(){
+        
+        Path filePath = Path.of("\\registros\\funcionarios", 
+                        String.format("%s.json", this.getUser()));
+        
+        return (Files.exists(filePath));
+    }
+    
+    public static Funcionario findFuncionario(String user) throws IOException{
         Gson gson = new Gson();
+        Path filePath = Path.of("\\registros\\funcionarios", 
+                            String.format("%s.json", user));
         
-        if(!Files.exists(filePath.getParent()))
-            Files.createDirectories(filePath.getParent());
-        
-        if(Files.exists(filePath)){ 
-            Cliente cliente = 
-                    gson.fromJson(Files.readString(filePath), Cliente.class);
-            return cliente;
+        if (existeFuncionario(user)){
+            return gson.fromJson(Files.readString(filePath), Funcionario.class);
+        }else{
+            throw new IOException("Não foi possível encontrar o registro.");
         }
-        
-        Cliente cliente = new Cliente(id, endereco, telefone, nome, cpf);
-        Files.writeString(filePath, gson.toJson(cliente));
-        return cliente;
     }
     
+//  Overrides
     
-     @Override
+    @Override
     public String toString() {
-        return String.format("%sID Funcionário: %d\n", 
-                super.toString(), getIdFuncionario());
+        return String.format("%sUser Funcionário: %s\n", 
+                super.toString(), getUser());
     }
 }
