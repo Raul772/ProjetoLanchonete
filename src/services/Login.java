@@ -3,7 +3,7 @@ package services;
 import appExceptions.FailedLoginException;
 import entities.Usuario;
 import entities.Administrador;
-import entities.Funcionario;    
+import entities.Colaborador;    
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -59,9 +59,9 @@ public abstract class Login {
         try{
             
 //          Confere se existe um funcionario cadastrado com esse usuário.
-            if(Funcionario.existeFuncionario(user)){
+            if(Colaborador.existeColaborador(user)){
 //              Cria um objeto do funcionario cadastrado para a conferencia da senha.
-                Funcionario funcionario = Funcionario.findFuncionario(user);
+                Colaborador funcionario = Colaborador.findColaborador(user);
                 
 //              Confere se a senha digitada pelo usuario é igual ao do cadastro.
                 if(funcionario.getPassword().equals(password))

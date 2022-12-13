@@ -24,49 +24,49 @@ public class Administrador extends Usuario{
     
 //  Métodos de Administrador
     
-    public Funcionario incluirFuncionario(){
+    public Colaborador incluirColaborador(){
         
         Scanner scanner = new Scanner(System.in);
         
-        System.out.println("-------------- Incluir Funcionario ------------------");
-        System.out.println("Digite o nome do Funcionario: ");
+        System.out.println("-------------- Incluir Colaborador ------------------");
+        System.out.println("Digite o nome do Colaborador: ");
         String nome = scanner.nextLine();
-        System.out.println("Digite o CPF do Funcionario: ");
+        System.out.println("Digite o CPF do Colaborador: ");
         String cpfNumber = scanner.nextLine();
-        System.out.println("Digite o User do Funcionario: ");
-        String userFuncionario = scanner.nextLine();
-        System.out.println("Digite a senha do Funcionario: ");
+        System.out.println("Digite o User do Colaborador: ");
+        String userColaborador = scanner.nextLine();
+        System.out.println("Digite a senha do Colaborador: ");
         String senha = scanner.nextLine();
         System.out.println("-------------------------------------------------");
        
         
         try{
-//          Verificar se existe o caminho de diretórios até funcionarios
-            if (!Files.exists(Path.of("\\registros\\funcionarios")))
+//          Verificar se existe o caminho de diretórios até colaboradores
+            if (!Files.exists(Path.of("\\registros\\colaboradores")))
 //              Se não existir, criar os diretórios
-                Files.createDirectories(Path.of("\\registros\\funcionarios"));
+                Files.createDirectories(Path.of("\\registros\\colaboradores"));
             
-//          Verificar se existe um Funcionario cadastrado baseado no User
-            if(Funcionario.existeFuncionario(userFuncionario))
-//              Se existir, retornar esse Funcionario
-                return Funcionario.findFuncionario(userFuncionario);
+//          Verificar se existe um Colaborador cadastrado baseado no User
+            if(Colaborador.existeColaborador(userColaborador))
+//              Se existir, retornar esse Colaborador
+                return Colaborador.findColaborador(userColaborador);
         }
         catch(IOException e){
 //          Tratar erro caso não seja possível criar diretórios
             System.err.println(e);
         }
         
-//      Criar novo objeto Funcionario caso esse ainda não esteja registrado
-        Funcionario funcionario = new Funcionario( nome,
-                cpfNumber, userFuncionario, senha);
+//      Criar novo objeto Colaborador caso esse ainda não esteja registrado
+        Colaborador funcionario = new Colaborador( nome,
+                cpfNumber, userColaborador, senha);
         
         try{
 //          Objeto conversor de objeto para Json
             Gson gson = new Gson();
             
-//          Escrever um novo arquivo de Funcionario no diretório nomeado por ID.json
-            Files.writeString(Path.of("\\registros\\funcionarios", 
-                    String.format("%s.json", userFuncionario)),
+//          Escrever um novo arquivo de Colaborador no diretório nomeado por ID.json
+            Files.writeString(Path.of("\\registros\\colaboradores", 
+                    String.format("%s.json", userColaborador)),
                     gson.toJson(funcionario));
         }
         catch(IOException e){
@@ -75,7 +75,7 @@ public class Administrador extends Usuario{
             return null;
         }
         
-//      Retornar Funcionario registrado
+//      Retornar Colaborador registrado
         return funcionario;
     }
     

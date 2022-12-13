@@ -6,16 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 
-public class Funcionario extends Usuario{
+public class Colaborador extends Usuario{
     
     
 //  Sobrecargas de Construtor
     
-    public Funcionario(){
+    public Colaborador(){
         super(1);
     }
 
-    public Funcionario(String nome, String cpf, String user, String password) {
+    public Colaborador(String nome, String cpf, String user, String password) {
         super(nome, cpf, 1, user, password);
         
     }
@@ -23,31 +23,31 @@ public class Funcionario extends Usuario{
 //  Getters e Setters
     
     
-//  Métodos de Funcionario
+//  Métodos de Colaborador
     
-    public static boolean existeFuncionario(String user){
+    public static boolean existeColaborador(String user){
 
-        Path filePath = Path.of("\\registros\\funcionarios", 
+        Path filePath = Path.of("\\registros\\colaboradores", 
                     String.format("%s.json", user));
         
         return (Files.exists(filePath));
     }
     
-    public boolean existeFuncionario(){
+    public boolean existeColaborador(){
         
-        Path filePath = Path.of("\\registros\\funcionarios", 
+        Path filePath = Path.of("\\registros\\colaboradores", 
                         String.format("%s.json", this.getUser()));
         
         return (Files.exists(filePath));
     }
     
-    public static Funcionario findFuncionario(String user) throws IOException{
+    public static Colaborador findColaborador(String user) throws IOException{
         Gson gson = new Gson();
-        Path filePath = Path.of("\\registros\\funcionarios", 
+        Path filePath = Path.of("\\registros\\colaboradores", 
                             String.format("%s.json", user));
         
-        if (existeFuncionario(user)){
-            return gson.fromJson(Files.readString(filePath), Funcionario.class);
+        if (existeColaborador(user)){
+            return gson.fromJson(Files.readString(filePath), Colaborador.class);
         }else{
             throw new IOException("Não foi possível encontrar o registro.");
         }

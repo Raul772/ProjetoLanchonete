@@ -11,7 +11,7 @@ public abstract class Sistema {
             
         switch (user.getNivelDeAcesso()) {
             case 1:
-                    menuFuncionario(user);
+                    menuColaborador(user);
                 break;
                 
             case 2:
@@ -22,7 +22,7 @@ public abstract class Sistema {
         }  
     }
 
-    private static void menuFuncionario(Usuario user){
+    private static void menuColaborador(Usuario user){
 
 //      Variável que guarda a opção escolhida pelo usuário
         int option = 1;
@@ -72,8 +72,8 @@ public abstract class Sistema {
             System.out.println("--------------------- Menu ---------------------");
             System.out.println("(1) Cadastrar Cliente");
             System.out.println("(2) Remover Cliente");
-            System.out.println("(3) Cadastrar Funcionario");
-            System.out.println("(4) Remover Funcionario");
+            System.out.println("(3) Cadastrar Colaborador");
+            System.out.println("(4) Remover Colaborador");
             System.out.println("(0) Sair");
             System.out.println("------------------------------------------------");
             option = scanner.nextInt();
@@ -91,7 +91,7 @@ public abstract class Sistema {
                     
                     break;
                 case 3: 
-                    user.incluirFuncionario();
+                    user.incluirColaborador();
                     break;
                 case 4: 
 
