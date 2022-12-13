@@ -24,9 +24,13 @@ public abstract class Sistema {
 
     private static void menuFuncionario(Usuario user){
 
+//      Variável que guarda a opção escolhida pelo usuário
         int option = 1;
+        
+//      Scanner para ler o input do usuário
         Scanner scanner = new Scanner(System.in);
         
+//      Loop para rodar o menu enquanto o usuário não selecionar a opção sair
         while(option != 0){
             System.out.println("--------------------- Menu ---------------------");
             System.out.println("(1) Cadastrar Cliente");
@@ -35,6 +39,7 @@ public abstract class Sistema {
             System.out.println("------------------------------------------------");
             option = scanner.nextInt();
             
+//          Direcionamento da execução de acordo com a opção escolhida
             switch (option) {
                 case 0:
                     System.out.println("**** Tem Certeza que quer sair?\n(0) Sim\n(1) Não");
@@ -44,12 +49,14 @@ public abstract class Sistema {
                 case 1:
                     user.incluirCliente();
                     break;
+                    
                 case 2: 
                     
                     break;
 
+//              Padrão caso o usuário selecione uma opção que não está na lista
                 default:
-                    
+                    System.out.println("Digite uma opção válida.");
                     break;
             }
         }
@@ -60,6 +67,7 @@ public abstract class Sistema {
         int option = 1;
         Scanner scanner = new Scanner(System.in);
         
+//      Loop para rodar o menu enquanto o usuário não selecionar a opção sair
         while(option != 0){
             System.out.println("--------------------- Menu ---------------------");
             System.out.println("(1) Cadastrar Cliente");
@@ -89,8 +97,9 @@ public abstract class Sistema {
 
                     break;
 
+//              Padrão caso o usuário selecione uma opção que não está na lista
                 default:
-                    
+                    System.out.println("Digite uma opção válida.");
                     break;
             }
         }

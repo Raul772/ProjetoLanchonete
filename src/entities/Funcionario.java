@@ -17,6 +17,7 @@ public class Funcionario extends Usuario{
 
     public Funcionario(String nome, String cpf, String user, String password) {
         super(nome, cpf, 1, user, password);
+        
     }
 
 //  Getters e Setters

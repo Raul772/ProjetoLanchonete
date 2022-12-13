@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.Scanner;
 import services.ID;
 
-public abstract class Usuario extends Pessoa{
+public abstract class Usuario extends Pessoa {
     
     protected final int nivelDeAcesso;
     protected String user;
