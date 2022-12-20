@@ -2,19 +2,30 @@ package services;
 
 import appExceptions.FailedLoginException;
 import entities.Usuario;
-import entities.Administrador;
-import entities.Colaborador;    
-import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * <p>Classe responsável pelos métodos de Login</p>
+ * @author raulv
+ * @since 1.0
+ */
 public abstract class Login {
     
-    private static Usuario loggedUser;
+    private static Usuario loggedUser = null;
 
+    /**
+     * <p>Retorna o usuario logado sem uma requisição de login.</p>
+     * @return Usuario
+     */
     public static Usuario getLoggedUser() {
         return loggedUser;
     }
     
+    /**
+     * <p>Realiza a requisição de login e retorna o usuario logado.</p>
+     * @return Usuario
+     * @since 1.0
+     */
     public static Usuario login(){
         
         Scanner scanner = new Scanner(System.in);
@@ -23,12 +34,12 @@ public abstract class Login {
         
         while (usuario == null) {
             
-            System.out.println("------------------ Login --------------------");
-            System.out.println("Digite o Usuario: ");
+            System.out.println("---------------------------- Login ------------------------------");
+            System.out.println("| Digite o Usuario:                                             |");
             String user = scanner.nextLine();
-            System.out.println("Digite a senha: ");
+            System.out.println("| Digite a senha:                                               |");
             String password = scanner.nextLine();
-            System.out.println("----------------------------------------------\n\n");
+            System.out.println("-----------------------------------------------------------------\n\n");
         
             try{
 //              a chamada de função a seguir pode gerar uma exceção do tipo FailedLoginException.
@@ -37,10 +48,15 @@ public abstract class Login {
 //              O código abaixo só será executado se nenhuma exceção do tipo FailedLoginException
 //              for lançada.
 
-                System.out.println("------ Login realizado com sucesso! ------");
-                System.out.printf("%s", usuario.toString());
-                System.out.println("------------------------------------------\n\n");
-               
+                System.out.printf("""
+                                    -----------------------------------------------------------------
+                                    |                  Login Realizado com Sucesso                  |
+                                    -----------------------------------------------------------------
+                                                                                                   
+                                    Usuario: %-55s\nCPF: %-16s\n                                     
+                                    -----------------------------------------------------------------\n\n\n""",
+                                usuario.getNome(), usuario.getCpf());
+                
                 
             }
             
@@ -53,53 +69,46 @@ public abstract class Login {
         
         return usuario;
     }
-    
+
+    /**
+     * <p>Faz a autenticação de login conferindo user e senha do usuario.</p>
+     * @param user
+     * @param password
+     * @return Usuario
+     * @throws FailedLoginException 
+     * @since 1.0
+     */
     public static Usuario authLogin(String user, String password) throws FailedLoginException{
         
-        try{
-            
-//          Confere se existe um funcionario cadastrado com esse usuário.
-            if(Colaborador.existeColaborador(user)){
-//              Cria um objeto do funcionario cadastrado para a conferencia da senha.
-                Colaborador funcionario = Colaborador.findColaborador(user);
+        for (int i = 0; i < 15; i++) {
+//          Verifica se há algum usuário com esse username
+
+            if(Usuario.colaboradores[i] != null &&
+                    Usuario.colaboradores[i].getUser().equals(user)){
                 
-//              Confere se a senha digitada pelo usuario é igual ao do cadastro.
-                if(funcionario.getPassword().equals(password))
-                    loggedUser = funcionario;
-                else
-//                  Lança uma exceção caso a senha não esteja correta visto que nesse ponto
-//                  somente senha incorreta poderia falhar o login.
-                    throw new FailedLoginException("A senha inserida não corresponde.");
-                
-//           Caso não seja encontrado um funcionario com esse usuario, 
-//           verifica se há um administrador com esse usuario.
-            }else
-                
-//          Confere se existe um administrador cadastrado com esse usuário.
-            if(Administrador.existeAdministrador(user)){
-//              Cria um objeto do Administrador cadastrado para a conferencia da senha.
-                Administrador administrador = Administrador.findAdministrador(user);
-                
-//              Confere se a senha digitada pelo usuario é igual ao do cadastro.
-                if(administrador.getPassword().equals(password))
-                    loggedUser = administrador;
-                else
-//                  Lança uma exceção caso a senha não esteja correta visto que nesse ponto
-//                  somente senha incorreta poderia falhar o login.
-                    throw new FailedLoginException("A senha inserida não corresponde.");
-            }
-            else
-//              Caso não tenha sido encontrado nenhum funcionario ou administrador a partir do usuario digitado
-//              lançar uma exceção com mensagem de usuario não encontrado.
-                throw new FailedLoginException("Usuário não encontrado.");
-        }
-//      Tratamento de exceção relacionada a abertura de arquivos.
-        catch(IOException e){
-            System.err.println(e);
+//              Verifica se a senha do usuario encontrado coincide com a digitada
+                if(Usuario.colaboradores[i].getPassword().equals(password)){
+                    loggedUser = Usuario.colaboradores[i];
+                    break;
+                } else{
+//                  Caso a senha não seja encontrada
+                    throw new FailedLoginException("A senha digitada não está correta.");
+                }
+            }else{
+//              Caso o usuario não seja encontrado
+                if(i == 14)
+                    throw new FailedLoginException("O usuario digitado não foi encontrado.");
+            }        
+                    
         }
         
 //      Retorna o usuário logado
         return loggedUser;
     }
     
+//  Questão 03 - Sobrescrever o método toString() de todas as classes implementadas.
+    @Override
+    public String toString() {
+        return "Login : Classe responsável pelas funcionalidades de login do sistema.";
+    }  
 }
