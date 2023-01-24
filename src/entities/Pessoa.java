@@ -1,5 +1,7 @@
 package entities;
 
+import java.io.IOException;
+
 /**
  * <p>Essa classe representa uma pessoa no sistema.</p>
  * @author erica
@@ -15,9 +17,9 @@ public abstract class Pessoa {
     
     public Pessoa(){}
     
-    public Pessoa(String nome, String cpf) {
+    public Pessoa(String nome, String cpf) throws IOException {
         this.nome = nome;
-        this.cpf = cpf;
+        setCpf(cpf);
     }
 
 //  Getters e Setters
@@ -56,13 +58,14 @@ public abstract class Pessoa {
     /**
      * <p>Determina o cpf da pessoa a partir do parâmetro passado.</p>
      * @param cpf
+     * @throws java.io.IOException
      * @since 1.0
      */
-    public void setCpf(String cpf) {
-        if(cpf.matches("[0-9]"))
+    public final void setCpf(String cpf) throws IOException {
+        if(cpf.matches("[0-9]{11}"))
             this.cpf = cpf;
         else
-            throw new IllegalArgumentException("CPF deve ser composto apenas por números.");
+            throw new IOException("CPF deve ser composto apenas por números.");
     }
 
 //  Overrides

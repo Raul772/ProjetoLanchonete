@@ -1,6 +1,8 @@
 package services;
 
 import appExceptions.FailedLoginException;
+import entities.Administrador;
+import entities.Colaborador;
 import entities.Usuario;
 import java.util.Scanner;
 
@@ -80,15 +82,17 @@ public abstract class Login {
      */
     public static Usuario authLogin(String user, String password) throws FailedLoginException{
         
+        Usuario[] colaboradores = Usuario.getColaboradores();
+        
         for (int i = 0; i < 15; i++) {
 //          Verifica se há algum usuário com esse username
 
-            if(Usuario.colaboradores[i] != null &&
-                    Usuario.colaboradores[i].getUser().equals(user)){
+            if(colaboradores[i] != null &&
+                    colaboradores[i].getUser().equals(user)){
                 
 //              Verifica se a senha do usuario encontrado coincide com a digitada
-                if(Usuario.colaboradores[i].getPassword().equals(password)){
-                    loggedUser = Usuario.colaboradores[i];
+                if(colaboradores[i].getPassword().equals(password)){
+                    loggedUser = colaboradores[i];
                     break;
                 } else{
 //                  Caso a senha não seja encontrada

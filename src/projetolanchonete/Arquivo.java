@@ -1,4 +1,3 @@
-
 package projetolanchonete;
 
 import com.google.gson.Gson;
@@ -7,6 +6,7 @@ import entities.Administrador;
 import entities.Cliente;
 import entities.Colaborador;
 import entities.Pedido;
+import entities.Produto;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +18,64 @@ import java.lang.reflect.Type;
 
 public class Arquivo {
     
+    /**
+     *
+     * @param produtos
+     */
+    public static void salvarProduto(List<Produto> produtos){
+        try{
+//          Objeto conversor de objeto para Json
+            Gson gson = new Gson();
+            
+//          Escrever um novo arquivo de Cliente no diretório nomeado por ID.json
+            Files.writeString(Path.of("\\SistemaLanchonete\\registros\\produtos\\produtos.json"),
+                    gson.toJson(produtos));
+        }
+        catch(IOException e){
+//          Tratar exceção caso não seja possível escrever arquivo
+            System.err.println(e);
+        }
+        
+       
+    }
+    
+    /**
+    * <p>Retorna uma lista de produtos a partir da leitura de um arquivo JSON.</p>
+    * @return List&lt;Produto&gt;
+    * @since 2.0
+    */
+    public static List<Produto> carregarProdutos(){
+        
+        Gson gson = new Gson();
+        
+        List<Produto> produtos = new ArrayList<>();
+        
+        Type arrayProduto = new TypeToken<ArrayList<Produto>>() {}.getType();
+        
+        
+        try{
+            if (!Files.exists(Path.of("\\SistemaLanchonete\\registros\\produtos")))
+                Files.createDirectories(Path.of("\\SistemaLanchonete\\registros\\produtos"));
+            
+            if (!Files.exists(Path.of("\\SistemaLanchonete\\registros\\produtos\\produtos.json")))
+                Files.writeString(Path.of("\\SistemaLanchonete\\registros\\produtos\\produtos.json"), 
+                        gson.toJson(produtos));
+            
+            
+            produtos = gson.fromJson(
+                    Files.readString(
+                            Path.of("\\SistemaLanchonete\\registros\\produtos\\produtos.json")),
+                    arrayProduto);
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+        
+        return produtos;
+        
+    }
+    
+    
+//    Clientes
     
     
 /**
@@ -77,6 +135,10 @@ public class Arquivo {
         
         return clientes;
     }
+    
+    
+//    Colaboradores
+   
     
 /**
  * <p>Salva um vetor estatico de colaboradores em um arquivo JSON.</p>
@@ -140,6 +202,10 @@ public class Arquivo {
         
         return colaboradores;
     }
+    
+    
+//    Pedidos
+    
     
 /**
  * <p>Salva uma lista de pedidos em um arquivo JSON.</p>

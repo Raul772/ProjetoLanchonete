@@ -2,11 +2,6 @@
 package entities;
 
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import services.ID;
 
 /**
@@ -17,7 +12,7 @@ import services.ID;
 public abstract class Usuario extends Pessoa {
     
 //  Questão 05 - O sistema deverá armazenar de forma estática 15 colaboradores.
-    public static Colaborador[] colaboradores; 
+    private static Colaborador[] colaboradores; 
     
     private final int nivelDeAcesso;
     private String user;
@@ -31,7 +26,7 @@ public abstract class Usuario extends Pessoa {
         this.nivelDeAcesso = nivelDeAcesso;
     }
 
-    public Usuario(String nome, String cpf, int nivelDeAcesso,String user, String password) {
+    public Usuario(String nome, String cpf, int nivelDeAcesso,String user, String password) throws IOException {
 //      Questão 04 - Utilizar a palavra-chave super para implementar os construtores das subclasses.
         super(nome, cpf);
         this.nivelDeAcesso = nivelDeAcesso;
@@ -96,224 +91,17 @@ public abstract class Usuario extends Pessoa {
             this.password = password;
     }
 
+    public static Colaborador[] getColaboradores() {
+        return colaboradores;
+    }
+
+    public static void setColaboradores(Colaborador[] colaboradores) {
+        Usuario.colaboradores = colaboradores;
+    }
     
 //  Métodos de Usuário
     
-    /**
-    * <p>Imprime no console uma lista de todos os clientes cadastrados.</p>
-    * @since 1.0
-    */
-    public void listarClientes(){
-        
-        System.out.println("\n================================================================");
-        int count = 1;
-        for (Cliente cliente : Cliente.clientes) {
-            if (cliente != null) {
-            
-                System.out.printf("""
-                                   -------------- %02d --------------
-                                   Nome: %s\nCPF: %s\nTelefone: %s\nEndereço: %s
-                                   --------------------------------\n
-                                   """,count, cliente.getNome(),
-                                   cliente.getCpf(), cliente.getTelefone(),
-                                   cliente.getEndereco());
-                count++;
-            }
-        }
-        System.out.println("================================================================\n");
-    }
-    
-    /**
-     * <p>Busca e retorna um Cliente de acordo com a escolha do usuario.</p>
-     * @return Um cliente escolhido pelo usuario.
-     * @throws IOException 
-     * @since 1.0
-     */
-    public List<Cliente> searchCliente() throws IOException{
-
-        Scanner scanner = new Scanner(System.in);
-        List<Cliente> busca = new ArrayList<>();
-
-        System.out.println("----------------------------------------------------------------");
-        System.out.println("| Digite o nome do Cliente:                                    |");
-        String keySearch = scanner.nextLine();
-        System.out.println("----------------------------------------------------------------");
-
-        Pattern pattern = Pattern.compile(keySearch, Pattern.CASE_INSENSITIVE);
-        Matcher matcher;
-
-        int count = 1, results = 0;
-          for (Cliente cliente : Cliente.clientes) {
-            matcher = pattern.matcher(cliente.getNome());
-            
-            if (matcher.find()) {
-                busca.add(cliente);
-                System.out.printf("""
-                                   -------------- %02d --------------
-                                   Nome: %s\nCPF: %s\nTelefone: %s\nEndereço: %s
-                                   --------------------------------\n
-                                   """,count, cliente.getNome(),
-                                   cliente.getCpf(), cliente.getTelefone(),
-                                   cliente.getEndereco());
-                count++;
-                results++;
-            }
-        }
-        
-
-        if (results == 0) {
-            throw new IOException("Nao foi encontrado nenhum cliente com esse nome.");
-        }
-
-        return busca; 
-        
-    }
-    
-//  Questao 06 - Deve ser possível cadastrar os clientes no sistema, alterar ou editar seus atributos;
-    /**
-     * <p>Edita campos de um cliente já cadastrado no sistema.</p>
-     * @throws java.io.IOException
-     * @since 1.0
-     */
-    public void editarCliente() throws IOException{
-        
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.println("----------------------- Editar Cliente -------------------------");
-        
-        List<Cliente> aux = this.searchCliente();
-        
-        System.out.println("""
-                           ----------------------------------------------------------------
-                           Selecione um Cliente:  """);
-        int key = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("----------------------------------------------------------------");
-        
-        if (key <= 0 || key > aux.size())
-            throw new IOException("Essa opçao nao é valida.");
-        
-        Cliente cliente = Cliente.clientes.get(Cliente.findCliente(
-                aux.remove(key-1).getIdCliente())) ;
-        
-        
-        System.out.println("----------------------- Editar Cliente -------------------------");
-        System.out.println("|       Deixe o campo em branco caso nao queira edita-lo       |");
-        System.out.println("----------------------------------------------------------------");
-        System.out.println("Digite o nome do Cliente: ");
-        String nome = scanner.nextLine();
-        System.out.println("Digite o CPF do Cliente: ");
-        String cpfNumber = scanner.nextLine();
-        System.out.println("Digite o Telefone do Cliente: ");
-        String telefone = scanner.nextLine();
-        System.out.println("Digite o Endereço do Cliente: ");
-        String endereco = scanner.nextLine();
-        System.out.println("Digite o ID do Cliente: ");
-        String idCliente = scanner.nextLine();
-        System.out.println("----------------------------------------------------------------");
-
-        if (!nome.equals("")) cliente.setNome(nome);
-        if (!cpfNumber.equals("")) cliente.setCpf(cpfNumber);
-        if (!telefone.equals("")) cliente.setTelefone(telefone);
-        if (!endereco.equals("")) cliente.setEndereco(endereco);
-        if (!idCliente.equals("")) cliente.setIdCliente(idCliente);
-        
-        System.out.println("""
-                           ----------------------------------------------------------------
-                           |                                                              |
-                           |                       Cliente Editado                        |
-                           |                                                              |
-                           ----------------------------------------------------------------\n\n""");
-       
-    }
-    
-//  Questao 06 - Deve ser possível cadastrar os clientes no sistema, alterar ou editar seus atributos;
-    /**
-     * <p>Inclui um novo cliente ao sistema.</p>
-     * @throws java.io.IOException
-     * @since 1.0
-     */
-    public void incluirCliente() throws IOException{
-        
-        Scanner scanner = new Scanner(System.in);
-        
-        
-        System.out.println("---------------------- Incluir Cliente ------------------------");
-        System.out.println("Digite quantos clientes gostaria de incluir: ");
-        int quant = scanner.nextInt();
-        System.out.println("----------------------------------------------------------------");
-        scanner.nextLine();
-        
-        for (int i = 0; i < quant; i++) {
-        
-            System.out.printf("--------------------- Incluir Cliente %02d -----------------------\n", i + 1);
-            System.out.println("Digite o nome do Cliente: ");
-            String nome = scanner.nextLine();
-            System.out.println("Digite o CPF do Cliente: ");
-            String cpfNumber = scanner.nextLine();
-            System.out.println("Digite o Telefone do Cliente: ");
-            String telefone = scanner.nextLine();
-            System.out.println("Digite o Endereço do Cliente: ");
-            String endereco = scanner.nextLine();
-            System.out.println("Digite o ID do Cliente: ");
-            String idCliente = scanner.nextLine();
-            System.out.println("----------------------------------------------------------------");
-
-            if (Cliente.existeCliente(idCliente)) {
-                throw new IOException("""
-                                             -----------------------------------------------------------------
-                                             |                  O Cliente já foi cadastrado.                 |
-                                             -----------------------------------------------------------------""");
-            }
-
-    //      Criar novo objeto Cliente caso esse ainda não esteja registrado.
-            Cliente cliente = new Cliente(idCliente, endereco, telefone, nome, cpfNumber);
-
-    //      Adicionar Cliente na lista de clientes.
-            Cliente.clientes.add(cliente);
-            
-        }
-    }
-    
-    /**
-     * <p>Remove um cliente do sistema.</p>
-     * @throws java.io.IOException
-     * @since 1.0
-     */
-    public void excluirCliente() throws IOException{
-        Scanner scanner = new Scanner(System.in);
-        
-        List<Cliente> aux = this.searchCliente();
-        
-        System.out.println("""
-                           ----------------------------------------------------------------
-                           Selecione um Cliente:  """);
-        int key = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("----------------------------------------------------------------");
-        
-        if (key <= 0 || key > aux.size())
-            throw new IOException("Essa opçao nao é valida.");
-        
-        Cliente cliente = Cliente.clientes.get(Cliente.findCliente(
-                aux.remove(key-1).getIdCliente())) ;
-        
-        try{
-
-            Cliente.deleteCliente(cliente.getIdCliente());
-            
-            System.out.println("""
-                           ----------------------------------------------------------------
-                           |                                                              |
-                           |                      Cliente Removido                        |
-                           |                                                              |
-                           ----------------------------------------------------------------\n\n""");
-        }catch(IOException e){
-            System.err.printf(e.getMessage());
-        }        
-        
-    }
-    
+    /*
     public void registrarPedido() throws IOException{
         Scanner scanner = new Scanner(System.in);
         
@@ -393,6 +181,8 @@ public abstract class Usuario extends Pessoa {
             pedido.adicionarPedido();
 
     }
+   
+    */
     
     /**
      * <p>Busca e retorna uma lista de Pedidos de acordo com a pesquisa do usuario.</p>
@@ -401,7 +191,7 @@ public abstract class Usuario extends Pessoa {
      * @throws IOException 
      * @since 1.0
      */
-    public List<Pedido> searchPedido(Cliente cliente) throws IOException{
+    /*public List<Pedido> searchPedido(Cliente cliente) throws IOException{
 
         List<Pedido> busca = new ArrayList<>();
 
@@ -434,14 +224,14 @@ public abstract class Usuario extends Pessoa {
         return busca; 
         
     }
-    
+    */
     /**
      * <p>
      * Edita campos de um pedido já registrado no sistema.</p>
      * @throws java.io.IOException
      * @since 1.0
      */
-    public void editarPedido() throws IOException {
+    /*public void editarPedido() throws IOException {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -526,7 +316,7 @@ public abstract class Usuario extends Pessoa {
                            ----------------------------------------------------------------\n\n""");
 
     }
-    
+    */
 //  Overrides
     
 //  Questão 03 - Sobrescrever o método toString() de todas as classes implementadas.
