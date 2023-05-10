@@ -1,4 +1,4 @@
-package entities;
+package models;
 
 
 
@@ -104,10 +104,6 @@ public class Produto {
     public final void setEstoque(int estoque) {
         this.estoque = estoque;
     }
-    
-// Métodos de Produto
-    
- 
     
     
 //  Questão 03 - Sobrescrever o método toString() de todas as classes implementadas.

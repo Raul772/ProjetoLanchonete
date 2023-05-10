@@ -1,7 +1,7 @@
-package userinterfaces;
+package views;
 
 import controllers.AdministradorController;
-import entities.Usuario;
+import models.Usuario;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -28,29 +28,17 @@ public class AdministradorCLI extends AdministradorController{
                    | (0) Voltar                                                   |
                    ----------------------------------------------------------------""");
             option = scanner.nextInt();
-            
-            switch (option) {
-                case 0 ->{}
-                case 1 -> this.listarAdministradores();
-                case 2 -> {
-                    try {
-                        this.editarAdministrador();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
+            try {
+                switch (option) {
+                    case 0 ->{}
+                    case 1 -> this.listarAdministradores();
+                    case 2 -> this.editarAdministrador();
+                    case 3 -> this.incluirAdministrador();
+                    case 4 -> this.excluirAdministrador();
+                    default -> System.out.println("Digite uma opçao valida.");
                 }
-                case 3 -> {
-                    try {
-                        this.incluirAdministrador();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
-                }
-                case 4 -> {
-                        this.excluirAdministrador();
-                }
-                    
-                default -> System.out.println("Digite uma opçao valida.");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
             }
         } while (option != 0);
     }

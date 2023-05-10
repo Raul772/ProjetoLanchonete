@@ -1,4 +1,4 @@
-package entities;
+package models;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Pedido {
     private String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss"));
     private String dataHoraEntrega;
     private double precoTotal;
-    private String status;
+    private String status = "Processando";
     
     
 //  Getters e Setters
@@ -109,9 +109,6 @@ public class Pedido {
                     item.getDescricao()));
             itemCount++;
         }
-        
-        
-        
         
         return String.format("""
                              -------------------------- Pedido -----------------------------

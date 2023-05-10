@@ -2,11 +2,11 @@ package projetolanchonete;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import entities.Administrador;
-import entities.Cliente;
-import entities.Colaborador;
-import entities.Pedido;
-import entities.Produto;
+import models.Administrador;
+import models.Cliente;
+import models.Colaborador;
+import models.Pedido;
+import models.Produto;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

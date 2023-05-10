@@ -1,7 +1,7 @@
-package userinterfaces;
+package views;
 
 import controllers.ClienteController;
-import entities.Usuario;
+import models.Usuario;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -24,37 +24,23 @@ public class ClienteCLI extends ClienteController{
                    | (2) Editar Clientes                                          |
                    | (3) Cadastrar Clientes                                       |
                    | (4) Remover Cliente                                          |
+                   | (5) Listar Pedidos                                           |
                    ----------------------------------------------------------------
                    | (0) Voltar                                                   |
                    ----------------------------------------------------------------""");
             option = scanner.nextInt();
-            
-            switch (option) {
-                case 0 ->{}
-                case 1 -> this.listarClientes();
-                case 2 -> {
-                    try {
-                        this.editarCliente();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
+            try {
+                switch (option) {
+                    case 0 ->{}
+                    case 1 -> this.listarClientes();
+                    case 2 -> this.editarCliente();
+                    case 3 -> this.incluirCliente();
+                    case 4 -> this.excluirCliente();
+                    case 5 -> this.listarPedidos();
+                    default -> System.out.println("Digite uma opçao valida.");
                 }
-                case 3 -> {
-                    try {
-                        this.incluirCliente();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
-                }
-                case 4 -> {
-                    try {
-                        this.excluirCliente();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
-                }
-                    
-                default -> System.out.println("Digite uma opçao valida.");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
             }
         } while (option != 0);
     }  

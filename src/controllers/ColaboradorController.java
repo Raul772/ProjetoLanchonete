@@ -1,7 +1,7 @@
 package controllers;
 
-import entities.Colaborador;
-import entities.Usuario;
+import models.Colaborador;
+import models.Usuario;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ColaboradorController {
      * @return Boolean
      * @since 1.0
      */
-    public boolean existeColaborador(Colaborador colaborador){
+    private boolean existeColaborador(Colaborador colaborador){
         Usuario[] colaboradores = Usuario.getColaboradores();
         int index;
         boolean found = false;
@@ -281,7 +281,7 @@ public class ColaboradorController {
      * @throws IOException
      * @since 1.0
      */
-    public static int findColaborador(String user) throws IOException{
+    private static int findColaborador(String user) throws IOException{
         Usuario[] colaboradores = Usuario.getColaboradores();
         int index;
         boolean found = false;
@@ -307,9 +307,16 @@ public class ColaboradorController {
     * @throws IOException
     * @since 1.0
     */
-    public static void deleteColaborador(String user) throws IOException{
+    private static void deleteColaborador(String user) throws IOException{
             Usuario.getColaboradores()[findColaborador(user)] = null;
     }
+
+
+    @Override
+    public String toString() {
+        return "ColaboradorController, classe para controlar o model Colaborador";
+    }
+    
     
     
 }

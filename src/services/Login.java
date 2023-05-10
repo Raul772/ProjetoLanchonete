@@ -1,9 +1,9 @@
 package services;
 
 import appExceptions.FailedLoginException;
-import entities.Administrador;
-import entities.Colaborador;
-import entities.Usuario;
+import models.Administrador;
+import models.Colaborador;
+import models.Usuario;
 import java.util.Scanner;
 
 /**

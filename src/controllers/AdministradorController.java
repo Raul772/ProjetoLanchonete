@@ -1,8 +1,8 @@
 package controllers;
 
-import entities.Administrador;
-import entities.Colaborador;
-import entities.Usuario;
+import models.Administrador;
+import models.Colaborador;
+import models.Usuario;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -40,8 +40,7 @@ public class AdministradorController {
     }
 
     /**
-     * <p>
-     * Inclui um Administrador no sistema.</p>
+     * <p>Inclui um Administrador no sistema.</p>
      *
      * @return Administrador
      * @throws java.io.IOException
@@ -106,7 +105,7 @@ public class AdministradorController {
      * @throws IOException
      * @since 1.0
      */
-    public static int findAdministrador(String user) throws IOException {
+    private static int findAdministrador(String user) throws IOException {
         Colaborador[] colaboradores = Usuario.getColaboradores();
         int index;
         boolean found = false;
@@ -141,8 +140,7 @@ public class AdministradorController {
     }
 
     /**
-     * <p>
-     * Remove um Administrador do sistema.</p>
+     * <p>Remove um Administrador do sistema a menos que só exista um administrador cadastrado.</p>
      *
      * @since 1.0
      */
@@ -184,7 +182,6 @@ public class AdministradorController {
         } catch (IOException e) {
             System.err.printf(e.getMessage());
         }
-
     }
 
     /**

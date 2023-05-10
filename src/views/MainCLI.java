@@ -1,10 +1,8 @@
-package userinterfaces;
+package views;
 
-import userinterfaces.ClienteCLI;
-import userinterfaces.AdministradorCLI;
-import entities.Administrador;
-import entities.Colaborador;
-import entities.Usuario;
+import models.Administrador;
+import models.Colaborador;
+import models.Usuario;
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -26,32 +24,23 @@ public class MainCLI {
      * @since 2.0
      */
     public void mainMenu(Usuario user) {
-
-        switch (user.getNivelDeAcesso()) {
-            case 1 -> {
-                try {
-                    colaboradorMainMenu(
-                            new Colaborador(user.getNome(), user.getCpf(),
-                                    1, user.getNome(), user.getPassword()));
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                }
+        try {
+            switch (user.getNivelDeAcesso()) {
+                case 1 -> colaboradorMainMenu(
+                                new Colaborador(user.getNome(), user.getCpf(),
+                                        1, user.getNome(), user.getPassword()));
+                
+                case 2 -> administradorMainMenu(
+                                new Administrador(user.getNome(), user.getCpf(),
+                                        2, user.getNome(), user.getPassword()));
             }
-            case 2 -> {
-                try {
-                    administradorMainMenu(
-                            new Administrador(user.getNome(), user.getCpf(),
-                                    2, user.getNome(), user.getPassword()));
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 
     /**
-     * <p>
-     * Recebe um Colaborador e mostra no console um menu com as opções de
+     * <p>Recebe um Colaborador e mostra no console um menu com as opções de
      * colaborador.</p>
      *
      * @param user
@@ -87,14 +76,9 @@ public class MainCLI {
                     option = scanner.nextInt();
                 }
 
-                case 1 ->
-                    new ClienteCLI().clienteMenu(user);
-
-                case 2 -> {
-//                        new PedidoCLI().pedidoMenu(user);
-                }
-                default ->
-                    System.out.println("Digite uma opçao valida.");
+                case 1 -> new ClienteCLI().clienteMenu(user);
+                case 2 -> new PedidoCLI().pedidoMenu(user);
+                default -> System.out.println("Digite uma opçao valida.");
             }
 
 //                  Padrão caso o usuário selecione uma opção que não está na lista
@@ -120,6 +104,7 @@ public class MainCLI {
                                    | (2) Menu Colaboradores                                       |
                                    | (3) Menu Administradores                                     |
                                    | (4) Menu de Produtos                                         |
+                                   | (5) Menu de Pedidos                                          |
                                    ----------------------------------------------------------------
                                    | (0) Sair                                                     |
                                    ----------------------------------------------------------------
@@ -138,23 +123,14 @@ public class MainCLI {
                                                                """);
                     option = scanner.nextInt();
                 }
-                case 1 ->
-                    new ClienteCLI().clienteMenu(user);
-                case 2 -> {
-                    new ColaboradorCLI().colaboradorMenu(user);
-                }
-                case 3 -> {
-                    new AdministradorCLI().administradorMenu(user);
-                }
-                case 4 -> {
-                    new ProdutoCLI().produtoMenu(user);
-                }
-                default ->
-                    System.out.println("Digite uma opçao valida.");
+                case 1 -> new ClienteCLI().clienteMenu(user);
+                case 2 -> new ColaboradorCLI().colaboradorMenu(user);
+                case 3 -> new AdministradorCLI().administradorMenu(user);
+                case 4 -> new ProdutoCLI().produtoMenu(user);
+                case 5 -> new PedidoCLI().pedidoMenu(user);
+                default ->System.out.println("Digite uma opçao valida.");
             }
-
 //              Padrão caso o usuário selecione uma opção que não está na lista
         }
     }
-
 }

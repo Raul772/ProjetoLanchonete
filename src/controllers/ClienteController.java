@@ -1,6 +1,7 @@
 package controllers;
 
-import entities.Cliente;
+import models.Cliente;
+import models.Pedido;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class ClienteController{
     
 //  Questão 08 - Os pedidos e os clientes devem ser salvos de forma dinâmica no sistema.
     private static List<Cliente> clientes = new ArrayList<>();
+    
     private static int clienteCount = 0;
 
     
@@ -292,7 +294,6 @@ public class ClienteController{
 
     //      Adicionar Cliente na lista de clientes.
             clientes.add(cliente);
-            
         }
     }
     
@@ -335,6 +336,47 @@ public class ClienteController{
         
     }
 
+    public void listarPedidos() throws IOException{
+        
+        Scanner scanner = new Scanner(System.in);
+        List<Cliente> aux = this.searchCliente();
+        
+        
+        System.out.println("""
+                           ----------------------------------------------------------------
+                           Selecione um Cliente:  """);
+        int key = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("----------------------------------------------------------------");
+        
+        if (key <= 0 || key > aux.size())
+            throw new IOException("Essa opçao nao é valida.");
+        
+        Cliente cliente = clientes.get(findCliente(
+                aux.remove(key-1).getIdCliente())) ;
+        
+        
+        List<Pedido> pedidos = PedidoController.getPedidos();
+        
+        System.out.println("\n================================================================\n");
+        
+        for (Pedido pedido : pedidos) {
+            if (pedido.getCliente().getIdCliente().equals(cliente.getIdCliente())) {
+                System.out.printf("""
+                                   ----------------------------------------------------------------
+                                   | Pedido Numero: %s
+                                   | Cliente: %s                                           
+                                   | Data e Hora: %s
+                                   | Valor Total: %s
+                                   | Status: %s
+                                   ----------------------------------------------------------------\n""",
+                         pedido.getNumero(), pedido.getCliente().getNome(),
+                         pedido.getDataHora(), pedido.getPrecoTotal(), pedido.getStatus());
+            }
+        }  
+        
+        System.out.println("================================================================\n");
+    }
     
     
     @Override

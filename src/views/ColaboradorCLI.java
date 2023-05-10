@@ -1,7 +1,7 @@
-package userinterfaces;
+package views;
 
 import controllers.ColaboradorController;
-import entities.Usuario;
+import models.Usuario;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -28,29 +28,17 @@ public class ColaboradorCLI extends ColaboradorController {
                    | (0) Voltar                                                   |
                    ----------------------------------------------------------------""");
             option = scanner.nextInt();
-            
-            switch (option) {
-                case 0 ->{}
-                case 1 -> this.listarColaboradores();
-                case 2 -> {
-                    try {
-                        this.editarColaborador();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
+            try {
+                switch (option) {
+                    case 0 ->{}
+                    case 1 -> this.listarColaboradores();
+                    case 2 -> this.editarColaborador();
+                    case 3 -> this.incluirColaborador();
+                    case 4 -> this.excluirColaborador();
+                    default -> System.out.println("Digite uma opçao valida.");
                 }
-                case 3 -> {
-                    try {
-                        this.incluirColaborador();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
-                }
-                case 4 -> {
-                        this.excluirColaborador();
-                }
-                    
-                default -> System.out.println("Digite uma opçao valida.");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
             }
         } while (option != 0);
     }

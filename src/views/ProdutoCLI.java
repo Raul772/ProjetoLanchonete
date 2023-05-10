@@ -1,6 +1,6 @@
-package userinterfaces;
+package views;
 
-import entities.Usuario;
+import models.Usuario;
 import controllers.ProdutoController;
 import java.io.IOException;
 import java.util.Scanner;
@@ -27,30 +27,16 @@ public class ProdutoCLI extends ProdutoController {
         
             option = scanner.nextInt();
             ProdutoController PController = new ProdutoController();
-        
-            switch (option) {
-                case 0 -> {
+            try {
+                switch (option) {
+                    case 0 -> {}
+                    case 1 -> PController.incluirProduto();
+                    case 2 -> PController.editarProduto();
+                    case 3 -> PController.excluirProduto();
+                    default -> System.out.println("Digite uma opçao valida.");
                 }
-                case 1 -> {
-                    try {
-                        PController.incluirProduto();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
-                }
-                case 2 -> {
-                    try {
-                        PController.editarProduto();
-                    } catch (IOException e) {
-                        System.err.println(e.getMessage());
-                    }
-                }
-                
-                case 3 -> {
-                    PController.excluirProduto();
-                }
-
-                default -> System.out.println("Digite uma opçao valida.");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
             }
         } while (option != 0);
         

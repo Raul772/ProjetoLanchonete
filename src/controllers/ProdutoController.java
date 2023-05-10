@@ -1,6 +1,6 @@
 package controllers;
 
-import entities.Produto;
+import models.Produto;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -27,14 +27,14 @@ public class ProdutoController {
     }   
     
     /**
-     * <p>Remove um Produto do sistema.</p>
+     * <p>Remove um Produto cadastrado no sistema.</p>
      * @since 2.0
      */
     public void excluirProduto() {
 
         try {
             Scanner scanner = new Scanner(System.in);
-            List<Produto> aux = searchProduto();
+            List<Produto> aux = searchProduto(produtos);
             
             System.out.println("""
                            ----------------------------------------------------------------
@@ -59,7 +59,6 @@ public class ProdutoController {
                            |                                                              |
                            ----------------------------------------------------------------""");
         } catch (IOException e) {
-
             System.err.println(e.getMessage());
         }
 
@@ -67,11 +66,12 @@ public class ProdutoController {
     
     /**
      * <p>Busca e retorna uma lista de produtos resultado de uma busca por nome.</p>
+     * @param prodList
      * @return Lista de produtos procurados por nome.
      * @throws IOException 
      * @since 2.0
      */
-    public List<Produto> searchProduto() throws IOException {
+    public List<Produto> searchProduto(List<Produto> prodList) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
         
@@ -86,7 +86,7 @@ public class ProdutoController {
         Matcher matcher;
 
         int count = 1, results = 0;
-        for (Produto produto : produtos) {
+        for (Produto produto : prodList) {
             if (produto != null){
                 matcher = pattern.matcher(produto.getNome());
 
@@ -112,8 +112,7 @@ public class ProdutoController {
     }
     
     /**
-     * <p>
-     * Edita campos de um Produto já cadastrado no sistema.</p>
+     * <p>Edita campos de um Produto já cadastrado no sistema.</p>
      *
      * @throws java.io.IOException
      * @since 2.0
@@ -122,7 +121,7 @@ public class ProdutoController {
 
         Scanner scanner = new Scanner(System.in);
         
-        List<Produto> aux = searchProduto();
+        List<Produto> aux = searchProduto(produtos);
 
         System.out.println("""
                            ----------------------------------------------------------------
@@ -195,8 +194,7 @@ public class ProdutoController {
     }
     
     /**
-     * <p>
-     * inclui produtos ao sistema</p>
+     * <p>inclui produtos ao sistema</p>
      *
      * @throws java.io.IOException
      * @since 2.0

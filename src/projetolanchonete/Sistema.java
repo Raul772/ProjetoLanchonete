@@ -2,13 +2,14 @@ package projetolanchonete;
 
 import controllers.ClienteController;
 import controllers.ProdutoController;
-import userinterfaces.MainCLI;
-import entities.Usuario;
+import controllers.PedidoController;
+import views.MainCLI;
+import models.Usuario;
 import services.Login;
 import java.util.Locale;
 
 public class Sistema {
-
+    
     public static void main(String[] args) {
         
         Locale.setDefault(Locale.of("pt", "BR"));
@@ -16,7 +17,7 @@ public class Sistema {
         ClienteController.setClientes(Arquivo.carregarClientes());
         Usuario.setColaboradores(Arquivo.carregarColaboradores());
         ProdutoController.setProdutos(Arquivo.carregarProdutos());
-//        Pedido.setPedidos(Arquivo.carregarPedidos());
+        PedidoController.setPedidos(Arquivo.carregarPedidos());
 
         Usuario user = Login.login();
         
@@ -27,7 +28,7 @@ public class Sistema {
         Arquivo.salvarClientes(ClienteController.getClientes());
         Arquivo.salvarColaboradores(Usuario.getColaboradores());
         Arquivo.salvarProduto(ProdutoController.getProdutos());
-//        Arquivo.salvarPedidos(Pedido.getPedidos());
+        Arquivo.salvarPedidos(PedidoController.getPedidos());
     }
 
 }
